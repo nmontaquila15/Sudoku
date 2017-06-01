@@ -6,7 +6,6 @@
 //This is the source file that contains the main functions and definitions
 
 #include "Board.h"
-#include <cstdlib>
 
 using namespace std;
 
