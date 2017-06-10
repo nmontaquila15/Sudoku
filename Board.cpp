@@ -61,7 +61,7 @@ int squareNumber(int i, int j)
 // top to bottom. 
 {
 
-   return SquareSize * (floor((i)/SquareSize)) + floor((j)/SquareSize);
+   return (int) (SquareSize * (floor((i) / SquareSize)) + floor((j) / SquareSize));
 }
 
 ostream &operator<<(ostream &ostr, vector<int> &v)
@@ -193,7 +193,7 @@ bool board::isSolved()
 }
 
 pair<int, int> board::findEmptyCell()
-//find cell that has not been filled yet
+//find cell with most conflicts that has not been filled yet
 {
 	pair<int, int> p;
 	int max = 0;
@@ -305,7 +305,7 @@ void board::printAverageAndTotalCalls()
 // averages the total recursive count and prints it
 {
 	unsigned int numerator = 0;
-	unsigned int denominator = calls.size();
+	unsigned int denominator = (unsigned int) calls.size();
 	
 	for (int i = 0; i < (int)calls.size(); i++)
 	{
@@ -317,10 +317,7 @@ void board::printAverageAndTotalCalls()
 
 bool board::isValid(int i, int j, int ch)
 {
-	if (rows[i][ch] == false && columns[j][ch] == false && squares[squareNumber(i, j)][ch] == false)
-		return true;
-	else
-		return false;
+	return rows[i][ch] == false && columns[j][ch] == false && squares[squareNumber(i, j)][ch] == false;
 }
 
 int board::checkSameRow(int i, int j)
@@ -333,9 +330,9 @@ int board::checkSameRow(int i, int j)
 		{
 			for (int ch = 0; ch < BoardSize; ch++)
 			{
-				if (isValid(i, j, ch) == true)
+				if (isValid(i, j, ch))
 				{
-					if ((isBlank(i, k) == false) || (isBlank(i, k) == true && isValid(i, k, ch) == false))
+					if (!isBlank(i, k) || (isBlank(i, k) && !isValid(i, k, ch)))
 						options[ch]++;
 				}
 			}
@@ -359,9 +356,9 @@ int board::checkSameColumn(int i, int j)
 		{
 			for (int ch = 0; ch < BoardSize; ch++)
 			{
-				if (isValid(i, j, ch) == true)
+				if (isValid(i, j, ch))
 				{
-					if ((isBlank(k, j) == false) || (isBlank(k, j) == true && isValid(k, j, ch) == false))
+					if (!isBlank(k, j) || (isBlank(k, j) && !isValid(k, j, ch)))
 						options[ch]++;
 				}
 			}
@@ -504,9 +501,9 @@ int board::checkSameSquare(int i, int j)
 				{
 					for (int ch = 0; ch < BoardSize; ch++)
 					{
-						if (isValid(i, j, ch) == true)
+						if (isValid(i, j, ch))
 						{
-							if ((isBlank(k, m) == false) || (isBlank(k, m) == true && isValid(k, m, ch) == false))
+							if (!isBlank(k, m) || (isBlank(k, m) && !isValid(k, m, ch)))
 								options[ch]++;
 						}
 					}
@@ -523,9 +520,9 @@ int board::checkSameSquare(int i, int j)
 				{
 					for (int ch = 0; ch < BoardSize; ch++)
 					{
-						if (isValid(i, j, ch) == true)
+						if (isValid(i, j, ch))
 						{
-							if ((isBlank(k, m) == false) || (isBlank(k, m) == true && isValid(k, m, ch) == false))
+							if (!isBlank(k, m) || (isBlank(k, m) == true && !isValid(k, m, ch)))
 								options[ch]++;
 						}
 					}
@@ -542,9 +539,9 @@ int board::checkSameSquare(int i, int j)
 				{
 					for (int ch = 0; ch < BoardSize; ch++)
 					{
-						if (isValid(i, j, ch) == true)
+						if (isValid(i, j, ch))
 						{
-							if ((isBlank(k, m) == false) || (isBlank(k, m) == true && isValid(k, m, ch) == false))
+							if (!isBlank(k, m) || (isBlank(k, m) && !isValid(k, m, ch)))
 								options[ch]++;
 						}
 					}
